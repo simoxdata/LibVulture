@@ -25,7 +25,9 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:23.0.1'
     testCompile 'junit:junit:4.12'
-    compile project(':LibSS')
+
+    // LibShadowSocks
+    compile 'com.github.sesky4:LibSS:+'
 
     // net
     compile 'com.squareup.okhttp3:okhttp:3.4.2'
