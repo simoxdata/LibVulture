@@ -15,16 +15,17 @@ import java.util.TimerTask;
  */
 
 public class VultureConnection implements VultureContract.Connection{
-    private String username;
+
+    // serialized from json
     private String ip;
     private int port;
     private String password;
+
     private long establish_time;
     private int TTL;
-    // total tansfer
+
     private long transfer;
 
-    // interface needed
     // in ms
     private int REFRESH_RATE = 60 * 1000;
 
@@ -36,8 +37,18 @@ public class VultureConnection implements VultureContract.Connection{
 
     private Timer mTimer;
 
-    public String getUsername() {
-        return username;
+    private VultureContract.User mUser;
+
+    private long startTransfer;
+
+    public VultureConnection(VultureContract.User user){
+        mUser = user;
+        updateState();
+        startTransfer = mCurrentTransfer;
+    }
+
+    public VultureContract.User getUser() {
+        return mUser;
     }
 
     public String getIp() {
@@ -60,6 +71,7 @@ public class VultureConnection implements VultureContract.Connection{
         return TTL;
     }
 
+    // it does't make sense since the shadowsocks port won't close after connection close
     public long getTransfer() {
         return transfer;
     }
@@ -112,22 +124,21 @@ public class VultureConnection implements VultureContract.Connection{
         return mCurrentTransfer;
     }
 
-    // update every REFRESH_RATE seconds
-    private boolean updateState(){
+    @Override
+    public boolean updateState(){
         try {
-            VultureConnection c = ApiClient.getConnection(username,password);
+            VultureConnection c = ApiClient.getConnection(mUser.getUsername(),mUser.getPassword());
             if(c == null){
                 return false;
             }
 
-            username = c.getUsername();
             ip = c.getIp();
             port = c.getPort();
             password = c.getPassword();
             establish_time = c.getEstablish_time();
             TTL = c.getTTL();
-            mCurrentTransfer = c.getTransfer() - transfer;
             transfer = c.getTransfer();
+            mCurrentTransfer = transfer - startTransfer;
 
             mLastUpdateTime = System.currentTimeMillis();
         } catch (IOException e) {

@@ -1,7 +1,5 @@
 package com.vulture.libvulture;
 
-import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.vulture.libvulture.model.VultureConnection;
 import com.vulture.libvulture.model.VultureUser;
@@ -31,9 +29,9 @@ public class ApiClient {
     private static OkHttpClient client = new OkHttpClient();
     private static final MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
-    private static final String PROTOCAL = "http";
+//    private static final String PROTOCAL = "http";
     private static final String API_PREFIX = "/api";
-    private static final String HOST = PROTOCAL + "://" + Config.SERVER_IP + ":" + Config.SERVER_PORT + API_PREFIX;
+    private static final String HOST = Config.SERVER_HOST + API_PREFIX;
 
     private static final String registerUrl = "";
     private static final String getUserDataUrl = "";
@@ -77,7 +75,7 @@ public class ApiClient {
 
     public static VultureConnection getConnection(String username,String password) throws IOException {
         Request req = new Request.Builder()
-                .url(HOST  + "/" + username + "/connection" + "?password=" + password)
+                .url(HOST  + "/" + username + getConnectionUrl + "?password=" + password)
                 .get()
                 .build();
         Response res = client.newCall(req).execute();
