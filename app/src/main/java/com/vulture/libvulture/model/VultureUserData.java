@@ -1,32 +1,39 @@
 package com.vulture.libvulture.model;
 
+import com.vulture.libvulture.VultureContract;
+
 /**
  * Created by han on 2016/11/28.
  */
 
-public class VultureUserData {
+public class VultureUserData implements VultureContract.UserData{
     private String username;
     private String password;
     private long transfer;
     private long transfer_limit;
     private String inviter;
 
+    @Override
     public String getUsername() {
         return username;
     }
 
+    @Override
     public String getPassword() {
         return password;
     }
 
+    @Override
     public long getTransfer() {
         return transfer;
     }
 
-    public long getTransfer_limit() {
+    @Override
+    public long getTransferLimit() {
         return transfer_limit;
     }
 
+    @Override
     public String getInviter() {
         return inviter;
     }

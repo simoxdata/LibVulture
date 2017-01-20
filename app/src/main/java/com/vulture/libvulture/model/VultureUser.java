@@ -39,7 +39,7 @@ public class VultureUser implements VultureContract.User{
     // unit in Byte
     @Override
     public long getRemainTransfer() {
-        return mData.getTransfer_limit() - mData.getTransfer();
+        return mData.getTransferLimit() - mData.getTransfer();
     }
 
     @Override
@@ -66,5 +66,10 @@ public class VultureUser implements VultureContract.User{
     @Override
     public void startConnect(Context context) {
         mConnection.start(context);
+    }
+
+    @Override
+    public VultureContract.UserData getUserData() {
+        return mData;
     }
 }

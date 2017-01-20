@@ -41,7 +41,21 @@ public interface VultureContract {
         public Connection getConnection();
 
         public void startConnect(Context context);
+
+        public UserData getUserData();
     }
 
 
+    public interface UserData{
+
+        public String getUsername();
+
+        public String getPassword();
+
+        public long getTransfer();
+
+        public long getTransferLimit();
+
+        public String getInviter();
+    }
 }
