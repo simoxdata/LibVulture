@@ -68,8 +68,14 @@ public class VultureUser implements VultureContract.User{
         mConnection.start(context);
     }
 
+
     @Override
     public VultureContract.UserData getUserData() {
         return mData;
+    }
+
+    @Override
+    public void stopConnect() {
+        mConnection.stop();
     }
 }

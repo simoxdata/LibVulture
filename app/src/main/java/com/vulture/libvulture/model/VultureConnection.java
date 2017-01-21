@@ -44,7 +44,6 @@ public class VultureConnection implements VultureContract.Connection{
     public VultureConnection(VultureContract.User user){
         mUser = user;
         updateState();
-        startTransfer = mCurrentTransfer;
     }
 
     public VultureContract.User getUser() {
@@ -80,6 +79,7 @@ public class VultureConnection implements VultureContract.Connection{
     @Override
     public void start(Context context) {
 
+        startTransfer = transfer;
         mCurrentTransfer = 0;
         mConnectionEstablishTime = System.currentTimeMillis();
 

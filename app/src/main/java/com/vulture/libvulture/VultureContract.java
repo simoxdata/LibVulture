@@ -43,6 +43,8 @@ public interface VultureContract {
         public void startConnect(Context context);
 
         public UserData getUserData();
+
+        public void stopConnect();
     }
 
 
