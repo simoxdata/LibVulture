@@ -114,7 +114,7 @@ public class ApiClient {
     }
 
     public static boolean invite(String username,String password, String code) throws IOException {
-        RequestBody rb = RequestBody.create(mediaType, "username=" + username + "&" + "password=" + password);
+        RequestBody rb = RequestBody.create(mediaType, "username=" + username + "&" + "password=" + password + "&" + "code=" + code);
         Request req = new Request.Builder()
                 .url(HOST + "/" + username + inviteUrl)
                 .post(rb)
