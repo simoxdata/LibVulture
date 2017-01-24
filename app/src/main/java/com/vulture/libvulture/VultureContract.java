@@ -34,7 +34,7 @@ public interface VultureContract {
         // in byte
         public long getRemainTransfer();
 
-        public void updateState();
+        public boolean updateState();
         // timestamp in ms
         public long lastUpdateTime();
 
@@ -61,5 +61,7 @@ public interface VultureContract {
         public long getTransferLimit();
 
         public String getInviter();
+
+        public boolean updateState();
     }
 }

@@ -1,6 +1,9 @@
 package com.vulture.libvulture.model;
 
+import com.vulture.libvulture.ApiClient;
 import com.vulture.libvulture.VultureContract;
+
+import java.io.IOException;
 
 /**
  * Created by han on 2016/11/28.
@@ -12,6 +15,11 @@ public class VultureUserData implements VultureContract.UserData{
     private long transfer;
     private long transfer_limit;
     private String inviter;
+
+    public VultureUserData(String username,String password){
+        this.username = username;
+        this.password = password;
+    }
 
     @Override
     public String getUsername() {
@@ -36,6 +44,21 @@ public class VultureUserData implements VultureContract.UserData{
     @Override
     public String getInviter() {
         return inviter;
+    }
+
+    @Override
+    public boolean updateState() {
+        try {
+            VultureUserData data = ApiClient.getUserData(username,password);
+            if(data != null){
+                transfer = data.getTransfer();
+                transfer_limit = data.transfer_limit;
+                inviter = data.inviter;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public VultureUserData setInviter(String inviter) {

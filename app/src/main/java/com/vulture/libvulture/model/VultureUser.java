@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by han on 2016/12/6.
  */
 
-public class VultureUser implements VultureContract.User{
+public class VultureUser implements VultureContract.User {
 
     private String username;
     private String password;
@@ -25,6 +25,7 @@ public class VultureUser implements VultureContract.User{
         this.username = username;
         this.password = password;
         mConnection = new VultureConnection(this);
+        mData = new VultureUserData(username, password);
     }
 
     public String getUsername() {
@@ -43,14 +44,12 @@ public class VultureUser implements VultureContract.User{
     }
 
     @Override
-    public void updateState() {
-        try {
-            mData = ApiClient.getUserData(username,password);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public boolean updateState() {
+        boolean result = mData.updateState() && mConnection.updateState();
+        if (result) {
+            mLastUpdateTime = System.currentTimeMillis();
         }
-        mConnection.updateState();
-        mLastUpdateTime = System.currentTimeMillis();
+        return result;
     }
 
     @Override
