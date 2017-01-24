@@ -78,4 +78,9 @@ public class VultureUser implements VultureContract.User{
     public void stopConnect() {
         mConnection.stop();
     }
+
+    @Override
+    public boolean prepareNewConnection() {
+        return this.mConnection.updateState();
+    }
 }

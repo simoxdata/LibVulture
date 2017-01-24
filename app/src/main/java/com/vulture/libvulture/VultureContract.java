@@ -45,6 +45,8 @@ public interface VultureContract {
         public UserData getUserData();
 
         public void stopConnect();
+
+        public boolean prepareNewConnection();
     }
 
 

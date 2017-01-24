@@ -43,7 +43,6 @@ public class VultureConnection implements VultureContract.Connection{
 
     public VultureConnection(VultureContract.User user){
         mUser = user;
-        updateState();
     }
 
     public VultureContract.User getUser() {
