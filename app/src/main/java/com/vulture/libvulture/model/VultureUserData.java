@@ -54,6 +54,7 @@ public class VultureUserData implements VultureContract.UserData{
                 transfer = data.getTransfer();
                 transfer_limit = data.transfer_limit;
                 inviter = data.inviter;
+                return true;
             }
         } catch (IOException e) {
             e.printStackTrace();
