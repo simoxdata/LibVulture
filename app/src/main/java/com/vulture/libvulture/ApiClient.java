@@ -31,7 +31,7 @@ public class ApiClient {
     private static OkHttpClient client = new OkHttpClient();
     private static final MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
-//    private static final String PROTOCAL = "http";
+    //    private static final String PROTOCAL = "http";
     private static final String API_PREFIX = "/api";
     private static final String HOST = Config.SERVER_HOST + API_PREFIX;
 
@@ -60,7 +60,7 @@ public class ApiClient {
         }
     }
 
-    public static VultureUserData getUserData(String username,String password) throws IOException {
+    public static VultureUserData getUserData(String username, String password) throws IOException {
         Request req = new Request.Builder()
                 .url(HOST + getUserDataUrl + "/" + username + "?password=" + password)
                 .get()
@@ -69,30 +69,46 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse udr = gson.fromJson(re, UserDataResponse.class);
-        if(udr != null && udr.success()){
+        if (udr != null && udr.success()) {
             return (VultureUserData) udr.getMessage();
-        }else{
+        } else {
             return null;
         }
     }
 
-    public static VultureConnection getConnection(String username,String password) throws IOException {
+    public static VultureConnection getConnection(String username, String password) throws IOException {
         Request req = new Request.Builder()
-                .url(HOST  + "/" + username + getConnectionUrl + "?password=" + password)
+                .url(HOST + "/" + username + getConnectionUrl + "?password=" + password)
                 .get()
                 .build();
         Response res = client.newCall(req).execute();
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse gcr = gson.fromJson(re, GetConnectionResponse.class);
-        if(gcr != null && gcr.success()){
+        if (gcr != null && gcr.success()) {
             return (VultureConnection) gcr.getMessage();
-        }else{
+        } else {
             return null;
         }
     }
 
-    public static boolean deleteConnection(String username,String password) throws IOException {
+    public static VultureConnection getSpecifyConnection(String username, String password, String serverIp) throws IOException {
+        Request req = new Request.Builder()
+                .url(HOST + "/" + username + getConnectionUrl + "?password=" + password + "?server=" + serverIp)
+                .get()
+                .build();
+        Response res = client.newCall(req).execute();
+        Gson gson = new Gson();
+        String re = res.body().string();
+        ApiResponse gcr = gson.fromJson(re, GetConnectionResponse.class);
+        if (gcr != null && gcr.success()) {
+            return (VultureConnection) gcr.getMessage();
+        } else {
+            return null;
+        }
+    }
+
+    public static boolean deleteConnection(String username, String password) throws IOException {
         Request req = new Request.Builder()
                 .url(HOST + "/" + username + delConnectionUrl + "?password=" + password)
                 .delete()
@@ -116,7 +132,7 @@ public class ApiClient {
         return sr != null && sr.success();
     }
 
-    public static boolean invite(String username,String password, String code) throws IOException {
+    public static boolean invite(String username, String password, String code) throws IOException {
         RequestBody rb = RequestBody.create(mediaType, "username=" + username + "&" + "password=" + password + "&" + "code=" + code);
         Request req = new Request.Builder()
                 .url(HOST + "/" + username + inviteUrl)
@@ -138,7 +154,29 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse ir = gson.fromJson(re, GetServerListResponse.class);
-        return (VultureServer[]) ir.getMessage();
+        if (ir != null && ir.success()) {
+            return (VultureServer[]) ir.getMessage();
+        }else{
+            return null;
+        }
+    }
+
+    // return -1 when timeout
+    public static long pingServer(String serverIp){
+        long msBefore = System.currentTimeMillis();
+
+        Request req = new Request.Builder()
+                .url("http://" + serverIp)
+                .get()
+                .build();
+        try {
+            client.newCall(req).execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        long msAfter = System.currentTimeMillis();
+        return msAfter - msBefore;
     }
 
 }
