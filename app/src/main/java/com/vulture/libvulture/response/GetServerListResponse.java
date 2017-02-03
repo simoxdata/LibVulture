@@ -9,7 +9,7 @@ import com.vulture.libvulture.model.VultureServer;
 
 public class GetServerListResponse implements ApiResponse {
     private int code;
-    private VultureServer[] serverList;
+    private VultureServer[] message;
     @Override
     public int getCode() {
         return code;
@@ -17,7 +17,7 @@ public class GetServerListResponse implements ApiResponse {
 
     @Override
     public Object getMessage() {
-        return serverList;
+        return message;
     }
 
     @Override
