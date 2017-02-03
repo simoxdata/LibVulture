@@ -2,11 +2,13 @@ package com.vulture.libvulture;
 
 import com.google.gson.Gson;
 import com.vulture.libvulture.model.VultureConnection;
+import com.vulture.libvulture.model.VultureServer;
 import com.vulture.libvulture.model.VultureUser;
 import com.vulture.libvulture.model.VultureUserData;
 import com.vulture.libvulture.response.ApiResponse;
 import com.vulture.libvulture.response.DelConnectionResponse;
 import com.vulture.libvulture.response.GetConnectionResponse;
+import com.vulture.libvulture.response.GetServerListResponse;
 import com.vulture.libvulture.response.InviteResponse;
 import com.vulture.libvulture.response.RegisterResponse;
 import com.vulture.libvulture.response.SignResponse;
@@ -39,6 +41,7 @@ public class ApiClient {
     private static final String delConnectionUrl = "/connection";
     private static final String signinUrl = "/signIn";
     private static final String inviteUrl = "/invite";
+    private static final String serverListUrl = "/serverlist";
 
     public static VultureContract.User register(String username, String password) throws IOException {
         RequestBody rb = RequestBody.create(mediaType, "username=" + username + "&" + "password=" + password);
@@ -124,6 +127,18 @@ public class ApiClient {
         String re = res.body().string();
         ApiResponse ir = gson.fromJson(re, InviteResponse.class);
         return ir != null && ir.success();
+    }
+
+    public static VultureServer[] getServerList(String username) throws IOException {
+        Request req = new Request.Builder()
+                .url(HOST + "/" + username + serverListUrl)
+                .get()
+                .build();
+        Response res = client.newCall(req).execute();
+        Gson gson = new Gson();
+        String re = res.body().string();
+        ApiResponse ir = gson.fromJson(re, GetServerListResponse.class);
+        return (VultureServer[]) ir.getMessage();
     }
 
 }
