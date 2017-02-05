@@ -82,4 +82,14 @@ public class VultureUser implements VultureContract.User {
     public boolean prepareNewConnection() {
         return this.mConnection.updateState();
     }
+
+    @Override
+    public boolean prepareNewConnection(String ip) {
+        try {
+            mConnection = ApiClient.getSpecifyConnection(username,password,ip);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return mConnection != null;
+    }
 }

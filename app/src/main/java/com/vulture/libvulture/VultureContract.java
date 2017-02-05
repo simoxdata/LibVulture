@@ -47,6 +47,8 @@ public interface VultureContract {
         public void stopConnect();
 
         public boolean prepareNewConnection();
+
+        public boolean prepareNewConnection(String ip);
     }
 
 
