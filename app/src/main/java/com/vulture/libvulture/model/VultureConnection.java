@@ -145,4 +145,27 @@ public class VultureConnection implements VultureContract.Connection{
         }
         return true;
     }
+
+    @Override
+    public boolean acquireSpecConnection(String ip) {
+        try {
+            VultureConnection c = ApiClient.getSpecifyConnection(mUser.getUsername(),mUser.getPassword(),ip);
+            if(c == null){
+                return false;
+            }
+
+            ip = c.getIp();
+            port = c.getPort();
+            password = c.getPassword();
+            establish_time = c.getEstablish_time();
+            TTL = c.getTTL();
+            transfer = c.getTransfer();
+            mCurrentTransfer = transfer - startTransfer;
+
+            mLastUpdateTime = System.currentTimeMillis();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }

@@ -24,6 +24,7 @@ public interface VultureContract {
 
         public boolean updateState();
 
+        public boolean acquireSpecConnection(String ip);
     }
 
     public interface User{
