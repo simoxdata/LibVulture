@@ -154,7 +154,7 @@ public class VultureConnection implements VultureContract.Connection{
                 return false;
             }
 
-            ip = c.getIp();
+            this.ip = c.getIp();
             port = c.getPort();
             password = c.getPassword();
             establish_time = c.getEstablish_time();
