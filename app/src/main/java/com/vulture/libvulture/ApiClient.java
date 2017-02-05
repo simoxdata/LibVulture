@@ -94,7 +94,7 @@ public class ApiClient {
 
     public static VultureConnection getSpecifyConnection(String username, String password, String serverIp) throws IOException {
         Request req = new Request.Builder()
-                .url(HOST + "/" + username + getConnectionUrl + "?password=" + password + "?server=" + serverIp)
+                .url(HOST + "/" + username + getConnectionUrl + "?password=" + password + "&server=" + serverIp)
                 .get()
                 .build();
         Response res = client.newCall(req).execute();
