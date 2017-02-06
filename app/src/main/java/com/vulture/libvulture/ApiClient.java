@@ -53,6 +53,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse rr = gson.fromJson(re, RegisterResponse.class);
+        // close body avoid leak
+        res.body().close();
         if (rr != null && rr.success()) {
             return new VultureUser(username, password);
         } else {
@@ -69,6 +71,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse udr = gson.fromJson(re, UserDataResponse.class);
+        // close body avoid leak
+        res.body().close();
         if (udr != null && udr.success()) {
             return (VultureUserData) udr.getMessage();
         } else {
@@ -85,6 +89,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse gcr = gson.fromJson(re, GetConnectionResponse.class);
+        // close body avoid leak
+        res.body().close();
         if (gcr != null && gcr.success()) {
             return (VultureConnection) gcr.getMessage();
         } else {
@@ -101,6 +107,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse gcr = gson.fromJson(re, GetConnectionResponse.class);
+        // close body avoid leak
+        res.body().close();
         if (gcr != null && gcr.success()) {
             return (VultureConnection) gcr.getMessage();
         } else {
@@ -117,6 +125,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse dcr = gson.fromJson(re, DelConnectionResponse.class);
+        // close body avoid leak
+        res.body().close();
         return dcr != null && dcr.success();
     }
 
@@ -129,6 +139,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse sr = gson.fromJson(re, SignResponse.class);
+        // close body avoid leak
+        res.body().close();
         return sr != null && sr.success();
     }
 
@@ -142,6 +154,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse ir = gson.fromJson(re, InviteResponse.class);
+        // close body avoid leak
+        res.body().close();
         return ir != null && ir.success();
     }
 
@@ -154,6 +168,8 @@ public class ApiClient {
         Gson gson = new Gson();
         String re = res.body().string();
         ApiResponse ir = gson.fromJson(re, GetServerListResponse.class);
+        // close body avoid leak
+        res.body().close();
         if (ir != null && ir.success()) {
             return (VultureServer[]) ir.getMessage();
         }else{
@@ -170,7 +186,9 @@ public class ApiClient {
                 .get()
                 .build();
         try {
-            client.newCall(req).execute();
+            Response res = client.newCall(req).execute();
+            // close body avoid leak
+            res.body().close();
         } catch (IOException e) {
             e.printStackTrace();
             return -1;
